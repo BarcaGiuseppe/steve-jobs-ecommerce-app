@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Cart, Product, TContext } from "./declarations";
 
 export const AppContext = createContext<TContext>({
@@ -17,6 +23,8 @@ export const AppContext = createContext<TContext>({
 interface Props {
   children: ReactNode;
 }
+
+export const useDataCardByContext = () => useContext(AppContext);
 
 export function ContextProvider({ children }: Props) {
   const [cart, setCart] = useState<TContext["cart"]>([]);
@@ -66,6 +74,7 @@ export function ContextProvider({ children }: Props) {
         "https://mockend.up.railway.app/api/products"
       );
       const data = await response.json();
+      console.log("abbiamo i dati");
       setProducts(data);
       setLoading(false);
     } catch (error: any) {
