@@ -1,5 +1,6 @@
 import { useDataCardByContext } from "@/ContextProvider";
 import { Product } from "@/declarations";
+import Link from "next/link";
 import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 
@@ -94,7 +95,8 @@ const PurchaseButton = styled.button<{ isEmpty: boolean }>((props) => ({
 }));
 
 export default function Cart() {
-  const { cart, products, removeFromCart, addToCart } = useDataCardByContext();
+  const { cart, products, removeFromCart, addToCart, pay, getProductQuantity } =
+    useDataCardByContext();
 
   const isEmpty = !cart.length;
   //console.log(isEmpty);
@@ -121,6 +123,7 @@ export default function Cart() {
   ) => {
     const newQuantity = parseInt(event.target.value);
     addToCart(id);
+    getProductQuantity(id, true);
   };
 
   return (
@@ -162,8 +165,10 @@ export default function Cart() {
                   }}
                 />
                 <RemoveButton
-                  onClick={() => removeFromCart(cartItem.id)}
-                  disabled={isEmpty}
+                  onClick={() => {
+                    removeFromCart(cartItem.id);
+                    getProductQuantity(cartItem.id, false);
+                  }}
                 >
                   Remove
                 </RemoveButton>
@@ -175,7 +180,18 @@ export default function Cart() {
           <TotalLabel>Total:</TotalLabel>
           <TotalAmount>{calculateTotal()}€</TotalAmount>
         </TotalWrapper>
-        <PurchaseButton isEmpty={isEmpty}>Buy Now</PurchaseButton>
+        <PurchaseButton isEmpty={isEmpty} onClick={pay} disabled={isEmpty}>
+          {isEmpty ? (
+            "Buy Now"
+          ) : (
+            <Link
+              href="/success"
+              style={{ color: "white", textDecoration: "inherit" }}
+            >
+              Buy Now
+            </Link>
+          )}
+        </PurchaseButton>
       </CartContainer>
     </CartPageWrapper>
   );

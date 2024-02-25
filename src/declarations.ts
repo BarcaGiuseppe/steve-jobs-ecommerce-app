@@ -24,5 +24,8 @@ export interface TContext {
   removeFromCart: (idProduct: Product["id"]) => void;
   pay: () => void;
   done: () => void;
-  getProductQuantity: (idProduct: Product["id"]) => number;
+  getProductQuantity: (
+    idProduct: Product["id"],
+    isAddToCart: boolean
+  ) => number;
 }

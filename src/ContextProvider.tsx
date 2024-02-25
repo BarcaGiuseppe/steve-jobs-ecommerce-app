@@ -35,9 +35,13 @@ export function ContextProvider({ children }: Props) {
 
   const addToCart = (idProduct: Product["id"]) => {
     const found = cart.find((el) => el.id === idProduct);
+    const qntProductAvailable = products?.find(
+      (el) => el.id === idProduct
+    )?.qty;
+
     if (!!found) {
       const newCart = cart.map((el) => {
-        if (el.id !== idProduct) return el;
+        if (el.id !== idProduct || qntProductAvailable == 0) return el;
         return { id: el.id, quantity: el.quantity + 1 };
       });
       setCart(newCart);
@@ -87,7 +91,33 @@ export function ContextProvider({ children }: Props) {
     setPaid(false);
   };
 
-  const getProductQuantity = (idProduct: Product["id"]) => {
+  const getProductQuantity = (
+    idProduct: Product["id"],
+    isAddToCart: boolean
+  ) => {
+    const productHome = products?.find((product) => product.id == idProduct);
+    //const productCart = cart.find((product) => product.id == idProduct);
+
+    if (products && productHome) {
+      //const qntProductCart = productCart.quantity;
+      let qntProductHome = productHome.qty;
+
+      const newProducts = products.map((product) => {
+        if (product.id == idProduct && product.qty > 0) {
+          if (isAddToCart)
+            return {
+              ...product,
+              qty: --qntProductHome,
+            };
+          return {
+            ...product,
+            qty: ++qntProductHome,
+          };
+        }
+        return product;
+      });
+      setProducts(newProducts);
+    }
     return 0;
   };
 

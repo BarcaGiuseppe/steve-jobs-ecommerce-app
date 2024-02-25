@@ -17,7 +17,7 @@ const HomeWrapper = styled.div(() => ({
   margin: "20px",
 }));
 
-const Card = styled.div(() => ({
+const Card = styled.div<{ qnt: boolean }>((props) => ({
   display: "flex",
   flexDirection: "column",
   border: "1px solid black",
@@ -27,6 +27,7 @@ const Card = styled.div(() => ({
   maxWidth: "300px",
   boxShadow: "2px 2px 10px 2px rgba(0, 0, 0, 0.3)",
   overflow: "hidden",
+  opacity: props.qnt ? "1.0" : "none",
 }));
 
 const Img = styled.img(() => ({
@@ -39,6 +40,7 @@ const Img = styled.img(() => ({
 const ItemWrapper = styled.div(() => ({
   display: "flex",
   justifyContent: "space-around",
+  marginBottom: "5%",
 }));
 
 const Title = styled.h2(() => ({
@@ -83,21 +85,23 @@ const QuantityLabel = styled.span(() => ({
 }));
 
 export default function Home() {
-  const { products, addToCart } = useDataCardByContext();
+  const { products, addToCart, getProductQuantity } = useDataCardByContext();
 
   const onClickAddToCart = (id: Product["id"]) => {
     addToCart(id);
+    getProductQuantity(id, true);
   };
 
   return (
     <HomeWrapper>
       {products !== null ? (
         products.map((product) => (
-          <Card key={product.id}>
+          <Card key={product.id} qnt={product.qty !== 0}>
             <Img src={product.image} alt={product.title}></Img>
             <ItemWrapper>
               <Title>{product.title}</Title>
             </ItemWrapper>
+            <Description>{product.description}</Description>
             <ItemWrapper>
               <Price>
                 <QuantityLabel>N.</QuantityLabel> {product.qty}
@@ -107,7 +111,6 @@ export default function Home() {
                 <FontAwesomeIcon icon={faCartShopping} />
               </Button>
             </ItemWrapper>
-            <Description>{product.description}</Description>
           </Card>
         ))
       ) : (
