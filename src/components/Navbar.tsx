@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faHome } from "@fortawesome/free-solid-svg-icons";
 
 const NavContainer = styled.div(() => ({
+  position: "sticky",
+  top: "0",
+  zIndex: "1000",
   display: "flex",
   justifyContent: "space-around",
   alignItems: "end",
