@@ -82,7 +82,7 @@ const TotalAmount = styled.span(() => ({
   marginLeft: "10px",
 }));
 
-const PurchaseButton = styled.button<{ isEmpty: boolean }>((props) => ({
+const BuyButton = styled.button<{ isEmpty: boolean }>((props) => ({
   backgroundColor: "green",
   color: "white",
   border: "none",
@@ -180,7 +180,7 @@ export default function Cart() {
           <TotalLabel>Total:</TotalLabel>
           <TotalAmount>{calculateTotal()}€</TotalAmount>
         </TotalWrapper>
-        <PurchaseButton isEmpty={isEmpty} onClick={pay} disabled={isEmpty}>
+        <BuyButton isEmpty={isEmpty} onClick={pay} disabled={isEmpty}>
           {isEmpty ? (
             "Buy Now"
           ) : (
@@ -191,7 +191,7 @@ export default function Cart() {
               Buy Now
             </Link>
           )}
-        </PurchaseButton>
+        </BuyButton>
       </CartContainer>
     </CartPageWrapper>
   );
