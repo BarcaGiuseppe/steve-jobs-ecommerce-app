@@ -45,8 +45,10 @@ export function ContextProvider({ children }: Props) {
         return { id: el.id, quantity: el.quantity + 1 };
       });
       setCart(newCart);
+      getProductQuantity(idProduct, true);
     } else {
       setCart([...cart, { id: idProduct, quantity: 1 }]);
+      getProductQuantity(idProduct, true);
     }
   };
 
@@ -64,6 +66,7 @@ export function ContextProvider({ children }: Props) {
       }
     }, [] as Cart);
     setCart(newCart);
+    getProductQuantity(idProduct, false);
   };
 
   const pay = () => {

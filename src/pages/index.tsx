@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 import styled from "styled-components";
 import { useDataCardByContext } from "@/ContextProvider";
 import { Product } from "@/declarations";
+import Link from "next/link";
 
 const HomeWrapper = styled.div(() => ({
   display: "flex",
@@ -50,7 +51,7 @@ const Title = styled.h2(() => ({
   marginLeft: "20px",
 }));
 
-const Price = styled.button(() => ({
+const Price = styled.p(() => ({
   background: "transparent",
   border: "none",
   cursor: "pointer",
@@ -98,9 +99,27 @@ export default function Home() {
       {products !== null ? (
         products.map((product) => (
           <Card key={product.id} qnt={product.qty !== 0}>
-            <Img src={product.image} alt={product.title}></Img>
+            <Link
+              href={{
+                pathname: "/product/[productId]",
+                query: { productId: product.id },
+              }}
+              as={`/product/${product.id}`}
+              style={{ color: "black", textDecoration: "inherit" }}
+            >
+              <Img src={product.image} alt={product.title}></Img>
+            </Link>
             <ItemWrapper>
-              <Title>{product.title}</Title>
+              <Link
+                href={{
+                  pathname: "/product/[productId]",
+                  query: { productId: product.id },
+                }}
+                as={`/product/${product.id}`}
+                style={{ color: "black", textDecoration: "inherit" }}
+              >
+                <Title>{product.title}</Title>
+              </Link>
             </ItemWrapper>
             <Description>{product.description}</Description>
             <ItemWrapper>

@@ -119,11 +119,12 @@ export default function Cart() {
 
   const handleQuantityChange = (
     event: ChangeEvent<HTMLInputElement>,
-    id: Product["id"]
+    id: Product["id"],
+    qnt: Product["qty"]
   ) => {
     const newQuantity = parseInt(event.target.value);
-    addToCart(id);
-    getProductQuantity(id, true);
+    newQuantity > qnt ? addToCart(id) : removeFromCart(id);
+    //getProductQuantity(id, true);
   };
 
   return (
@@ -146,7 +147,9 @@ export default function Cart() {
                 <QuantityInput
                   type="number"
                   value={cartItem.quantity}
-                  onChange={(event) => handleQuantityChange(event, cartItem.id)}
+                  onChange={(event) =>
+                    handleQuantityChange(event, cartItem.id, cartItem.quantity)
+                  }
                   onKeyDown={(event) => {
                     if (
                       event.key !== "ArrowUp" &&
@@ -167,7 +170,7 @@ export default function Cart() {
                 <RemoveButton
                   onClick={() => {
                     removeFromCart(cartItem.id);
-                    getProductQuantity(cartItem.id, false);
+                    //getProductQuantity(cartItem.id, false);
                   }}
                 >
                   Remove

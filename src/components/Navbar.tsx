@@ -2,7 +2,11 @@ import styled from "styled-components";
 import Link from "next/link";
 // import { ChangeRootFunction, PageRoot } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faHome,
+  faShip,
+} from "@fortawesome/free-solid-svg-icons";
 
 const NavContainer = styled.div(() => ({
   position: "sticky",
@@ -14,6 +18,12 @@ const NavContainer = styled.div(() => ({
   backgroundColor: "#0066cc",
   boxShadow: "0 1px 3px 1px rgba(0, 0, 0, 0.3)",
   margin: "0",
+}));
+
+const NavTitle = styled.div(() => ({
+  display: "flex",
+  gap: "10px",
+  marginLeft: "none",
 }));
 
 const NavItem = styled.div(() => ({
@@ -36,6 +46,11 @@ const Navbar = (): JSX.Element => {
   //   };
   return (
     <NavContainer>
+      <NavTitle>
+        <Item style={{ color: "white" }}>
+          <FontAwesomeIcon icon={faShip}></FontAwesomeIcon>Barca's Shop
+        </Item>
+      </NavTitle>
       <NavItem>
         <Item>
           <Link href="/" style={{ color: "white", textDecoration: "inherit" }}>
