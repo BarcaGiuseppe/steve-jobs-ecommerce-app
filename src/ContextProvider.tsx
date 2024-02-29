@@ -77,9 +77,7 @@ export function ContextProvider({ children }: Props) {
   const getProducts = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://mockend.up.railway.app/api/products"
-      );
+      const response = await fetch("/api/products");
       const data = await response.json();
       console.log("abbiamo i dati");
       setProducts(data);

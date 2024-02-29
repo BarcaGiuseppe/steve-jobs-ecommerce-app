@@ -1,7 +1,9 @@
 import { useDataCardByContext } from "@/ContextProvider";
 import { Product } from "@/declarations";
+import { selectCart } from "@/lib/slice";
 import Link from "next/link";
 import React, { ChangeEvent } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const CartPageWrapper = styled.div(() => ({
@@ -95,8 +97,10 @@ const BuyButton = styled.button<{ isEmpty: boolean }>((props) => ({
 }));
 
 export default function Cart() {
-  const { cart, products, removeFromCart, addToCart, pay, getProductQuantity } =
+  const { products, removeFromCart, addToCart, pay, getProductQuantity } =
     useDataCardByContext();
+
+  const cart = useSelector(selectCart);
 
   const isEmpty = !cart.length;
   //console.log(isEmpty);
@@ -108,7 +112,7 @@ export default function Cart() {
   };
 
   const calculateTotal = () => {
-    return cart.reduce((total, cartItem) => {
+    return cart.reduce((total: any, cartItem: any) => {
       const product = getProductById(cartItem.id);
       if (product) {
         return total + product.price * cartItem.quantity;
@@ -131,7 +135,7 @@ export default function Cart() {
     <CartPageWrapper>
       <h1>Your Cart</h1>
       <CartContainer>
-        {cart.map((cartItem, index) => {
+        {cart.map((cartItem: any, index: any) => {
           const product = getProductById(cartItem.id);
           if (!product) return null;
           return (

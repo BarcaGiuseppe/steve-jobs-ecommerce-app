@@ -10,6 +10,8 @@ import styled from "styled-components";
 import { useDataCardByContext } from "@/ContextProvider";
 import { Product } from "@/declarations";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { contextSlice } from "@/lib/slice";
 
 const HomeWrapper = styled.div(() => ({
   display: "flex",
@@ -89,8 +91,10 @@ const QuantityLabel = styled.span(() => ({
 export default function Home() {
   const { products, addToCart, getProductQuantity } = useDataCardByContext();
 
+  const dispatch = useDispatch();
   const onClickAddToCart = (id: Product["id"]) => {
-    addToCart(id);
+    dispatch(contextSlice.actions.addToCart(id));
+    //addToCart(id);
     getProductQuantity(id, true);
   };
 

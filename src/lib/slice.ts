@@ -3,87 +3,60 @@ import { RootState } from "./store";
 import { Cart, Product } from "@/declarations";
 
 interface InitialState {
-  cart: Cart[] | null;
-  paid: boolean;
-  products: Product[] | null;
-  loading: boolean;
-  error: string;
+  cart: Cart | null;
 }
 
-const initialState: InitialState = {
-  cart: [],
-  paid: false,
-  products: null,
-  loading: false,
-  error: "",
-};
+const initialState: Cart = [];
 
-const contextSlice = createSlice({
+export const contextSlice = createSlice({
   name: "context",
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<Product["id"]>) {
-      const idProduct = action.payload;
-      const existingItemIndex = state.cart?.findIndex(
-        (item) => item.id === idProduct
-      );
-      const product = state.products?.find((p) => p.id === idProduct);
+    addToCart: {
+      reducer(state, action: PayloadAction<{ id: number }>) {
+        const { id } = action.payload;
+        const foundItem = state.find((item) => item.id === id);
 
-      if (product && product.qty > 0) {
-        if (existingItemIndex !== -1) {
-          state.cart[existingItemIndex].quantity++;
+        if (foundItem) {
+          // Se l'elemento è già presente nel carrello, incrementa la quantità
+          foundItem.quantity++;
         } else {
-          state.cart.push({ id: idProduct, quantity: 1 } as const);
+          // Se l'elemento non è presente nel carrello, aggiungilo
+          state.push({ id, quantity: 1 });
         }
-      }
+      },
+      prepare(id: number) {
+        return {
+          payload: { id },
+        };
+      },
     },
-    removeFromCart(state, action: PayloadAction<Product["id"]>) {
-      // Rimuovi il prodotto dal carrello
-    },
-    pay(state) {
-      // Pagamento
-    },
-    getProducts(state) {
-      // Ottenere i prodotti
-    },
-    done(state) {
-      // Operazione completata
-    },
-    setLoading(state, action: PayloadAction<boolean>) {
-      state.loading = action.payload;
-    },
-    setError(state, action: PayloadAction<string>) {
-      state.error = action.payload;
-    },
-    setCart(state, action: PayloadAction<Cart[]>) {
-      state.cart = action.payload;
-    },
-    setPaid(state, action: PayloadAction<boolean>) {
-      state.paid = action.payload;
-    },
-    setProducts(state, action: PayloadAction<Product[] | null>) {
-      state.products = action.payload;
+    removeFromCart(state: Cart, action: PayloadAction<{ id: number }>) {
+      const { id } = action.payload;
+      const newCart = state.reduce((acc: Cart, el) => {
+        if (el.id === id) {
+          if (el.quantity > 1) {
+            acc.push({ id: el.id, quantity: el.quantity - 1 });
+          }
+          return acc;
+        } else {
+          acc.push(el);
+          return acc;
+        }
+      }, []);
+      state = newCart;
     },
   },
+
+  // other reducers
 });
 
-export const {
-  addToCart,
-  removeFromCart,
-  pay,
-  getProducts,
-  done,
-  setLoading,
-  setError,
-  setCart,
-  setPaid,
-  setProducts,
-} = contextSlice.actions;
+export const { addToCart, removeFromCart } = contextSlice.actions;
 
-export const selectCart = (state: RootState) => state.context.cart;
-export const selectPaid = (state: RootState) => state.context.paid;
-export const selectProducts = (state: RootState) => state.context.products;
-export const selectLoading = (state: RootState) => state.context.loading;
-export const selectError = (state: RootState) => state.context.error;
-
+//export const selectCart = (state: RootState) => state;
+// export const selectPaid = (state: RootState) => state.context.paid;
+// export const selectProducts = (state: RootState) => state.context.products;
+// export const selectLoading = (state: RootState) => state.context.loading;
+// export const selectError = (state: RootState) => state.context.error;
+export const selectCart = (state: RootState) => state.cart;
 export default contextSlice.reducer;
