@@ -48,7 +48,7 @@ const Navbar = (): JSX.Element => {
     <NavContainer>
       <NavTitle>
         <Item style={{ color: "white" }}>
-          <FontAwesomeIcon icon={faShip}></FontAwesomeIcon>SJA's Shop
+          <FontAwesomeIcon icon={faShip}></FontAwesomeIcon>SJAs Shop
         </Item>
       </NavTitle>
       <NavItem>
