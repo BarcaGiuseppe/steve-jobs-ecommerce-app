@@ -88,9 +88,10 @@ const QuantityLabel = styled.span(() => ({
   color: "black",
 }));
 
-export default function Home() {
-  const { products, addToCart, getProductQuantity } = useDataCardByContext();
+export default function Home({ products }: { products: any }) {
+  const { addToCart, getProductQuantity } = useDataCardByContext();
 
+  console.log(products);
   const dispatch = useDispatch();
   const onClickAddToCart = (id: Product["id"]) => {
     dispatch(contextSlice.actions.addToCart(id));
@@ -101,7 +102,7 @@ export default function Home() {
   return (
     <HomeWrapper>
       {products !== null ? (
-        products.map((product) => (
+        products.map((product: any) => (
           <Card key={product.id} qnt={product.qty !== 0}>
             <Link
               href={{
@@ -142,4 +143,19 @@ export default function Home() {
       )}
     </HomeWrapper>
   );
+}
+
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const res = await fetch(process.env.URL + "/api/products");
+  const products = await res.json();
+
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      products,
+    },
+  };
 }
