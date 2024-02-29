@@ -12,6 +12,7 @@ import { Product } from "@/declarations";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { contextSlice } from "@/lib/slice";
+import { fetchData } from "./api/products";
 
 const HomeWrapper = styled.div(() => ({
   display: "flex",
@@ -148,8 +149,9 @@ export default function Home({ products }: { products: any }) {
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const res = await fetch(process.env.URL + "/api/products");
-  const products = await res.json();
+  const products = await fetchData();
+  // const res = await fetch(process.env.URL + "/api/products");
+  // const products = await res.json();
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time

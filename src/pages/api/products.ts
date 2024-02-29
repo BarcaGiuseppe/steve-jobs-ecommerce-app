@@ -1,5 +1,12 @@
 import { NextApiResponse, NextApiRequest } from "next";
 
+export async function fetchData() {
+  const result = await fetch(
+    "https://server-products-node-production.up.railway.app/products"
+  );
+  const products = await result.json();
+  return products;
+}
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -7,10 +14,7 @@ export default async function handler(
   console.log("Get Request");
 
   try {
-    const result = await fetch(
-      "https://server-products-node-production.up.railway.app/products"
-    );
-    const products = await result.json();
+    const products = await fetchData();
     res.status(200).json(products);
   } catch (err) {
     console.error("Error:", err);
