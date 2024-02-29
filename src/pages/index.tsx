@@ -88,10 +88,10 @@ const QuantityLabel = styled.span(() => ({
   color: "black",
 }));
 
-function Home({ products }: { products: any }) {
+export default function Home({ products }: { products: any }) {
   const { addToCart, getProductQuantity } = useDataCardByContext();
 
-  console.log(products);
+  //console.log(products);
   const dispatch = useDispatch();
   const onClickAddToCart = (id: Product["id"]) => {
     dispatch(contextSlice.actions.addToCart(id));
