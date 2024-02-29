@@ -88,7 +88,7 @@ const QuantityLabel = styled.span(() => ({
   color: "black",
 }));
 
-export default function Home({ products }: { products: any }) {
+function Home({ products }: { products: any }) {
   const { addToCart, getProductQuantity } = useDataCardByContext();
 
   console.log(products);
