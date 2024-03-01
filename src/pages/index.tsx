@@ -151,7 +151,9 @@ export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   //const products = await fetchData();
-  const res = await fetch(process.env.PORT + "/api/products");
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_ROOT_DOMAIN + "/api/products"
+  );
   const products = await res.json();
 
   // By returning { props: { posts } }, the Blog component
