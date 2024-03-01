@@ -92,6 +92,7 @@ const QuantityLabel = styled.span(() => ({
 
 export default function Home({ products }: { products: any }) {
   const { addToCart, getProductQuantity } = useDataCardByContext();
+  console.log(process.env.VERCEL_URL);
 
   //console.log(products);
   const dispatch: AppDispatch = useDispatch();
@@ -103,7 +104,6 @@ export default function Home({ products }: { products: any }) {
 
   return (
     <HomeWrapper>
-      <h1>{products.env.VERCEL_URL}</h1>
       {products !== null ? (
         products.map((product: any) => (
           <Card key={product.id} qnt={product.qty !== 0}>
