@@ -151,9 +151,11 @@ export default function Home({ products }: { products: any }) {
 export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const products = await fetchData();
-  //const res = await fetch("https://" + process.env.VERCEL_URL + "api/products");
-  //const products = await res.json();
+  //const products = await fetchData();
+  const res = await fetch(
+    "https://" + process.env.NEXT_PUBLIC_VERCEL_URL + "/api/products"
+  );
+  const products = await res.json();
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
