@@ -103,6 +103,7 @@ export default function Home({ products }: { products: any }) {
 
   return (
     <HomeWrapper>
+      <h1>{products.env.VERCEL_URL}</h1>
       {products !== null ? (
         products.map((product: any) => (
           <Card key={product.id} qnt={product.qty !== 0}>
@@ -150,9 +151,9 @@ export default function Home({ products }: { products: any }) {
 export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  //const products = await fetchData();
-  const res = await fetch("https://" + process.env.VERCEL_URL + "api/products");
-  const products = await res.json();
+  const products = await fetchData();
+  //const res = await fetch("https://" + process.env.VERCEL_URL + "api/products");
+  //const products = await res.json();
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
