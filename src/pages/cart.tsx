@@ -1,6 +1,7 @@
 import { useDataCardByContext } from "@/ContextProvider";
 import { Product } from "@/declarations";
-import { selectCart } from "@/lib/slice";
+import { selectCart } from "@/lib/features/cart/sliceCart";
+import { selectProducts } from "@/lib/features/products/sliceProduct";
 import Link from "next/link";
 import React, { ChangeEvent } from "react";
 import { useSelector } from "react-redux";
@@ -102,6 +103,8 @@ export default function Cart() {
 
   const cart = useSelector(selectCart);
 
+  const products2 = useSelector(selectProducts);
+  console.log(products2);
   const isEmpty = !cart.length;
   //console.log(isEmpty);
 

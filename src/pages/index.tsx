@@ -11,8 +11,9 @@ import { useDataCardByContext } from "@/ContextProvider";
 import { Product } from "@/declarations";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { contextSlice } from "@/lib/slice";
+import { contextSlice } from "@/lib/features/cart/sliceCart";
 import { fetchData } from "./api/products";
+import { AppDispatch } from "@/lib/store";
 
 const HomeWrapper = styled.div(() => ({
   display: "flex",
@@ -93,7 +94,7 @@ export default function Home({ products }: { products: any }) {
   const { addToCart, getProductQuantity } = useDataCardByContext();
 
   //console.log(products);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const onClickAddToCart = (id: Product["id"]) => {
     dispatch(contextSlice.actions.addToCart(id));
     //addToCart(id);
@@ -149,9 +150,9 @@ export default function Home({ products }: { products: any }) {
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const products = await fetchData();
-  // const res = await fetch(process.env.URL + "/api/products");
-  // const products = await res.json();
+  //const products = await fetchData();
+  const res = await fetch(process.env.URL + "/api/products");
+  const products = await res.json();
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
