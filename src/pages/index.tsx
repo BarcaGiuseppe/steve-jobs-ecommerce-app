@@ -92,7 +92,7 @@ const QuantityLabel = styled.span(() => ({
 
 export default function Home({ products }: { products: any }) {
   const { addToCart, getProductQuantity } = useDataCardByContext();
-  console.log(process.env.NEXT_PUBLIC_VERCEL_ENV);
+  console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
 
   //console.log(products);
   const dispatch: AppDispatch = useDispatch();
